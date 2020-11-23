@@ -6,7 +6,7 @@ Welcome to the **WekaDeeplearning4j** tutorial for I2K (Images to Knowledge) 202
 
 It is recommended to view these tutorials on the [Github Pages site](https://basedrhys.github.io/I2K-Tutorial/).
 
-- [WEKA Setup / General Tips & Tricks](./1-general_tips.md)
-- [**Training** with the `Dl4jMlpClassifier`](./2-training.md)
-- [CNN **Feature Extraction** with the `Dl4jMlpFilter`](./3-feature_extraction.md)
-- [**Model Inference** with the `Dl4jCNNExplorer`](./4-inference.md)
+1. [WEKA Setup / General Tips & Tricks](./1-general_tips.md)
+2. [**Training** with the `Dl4jMlpClassifier`](./2-training.md)
+3. [CNN **Feature Extraction** with the `Dl4jMlpFilter`](./3-feature_extraction.md)
+4. [**Model Inference** with the `Dl4jCNNExplorer`](./4-inference.md)
