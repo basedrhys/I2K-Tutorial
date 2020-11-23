@@ -1,1 +1,4 @@
 theme: jekyll-theme-cayman
+title: I2K 2020 - WekaDeeplearning4j Tutorial
+description: State-of-the-art Deep Learning Techniques for Non-Programmers
+baseurl: /i2k-tutorial
