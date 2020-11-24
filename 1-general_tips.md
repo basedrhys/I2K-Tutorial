@@ -6,6 +6,13 @@ This is an introductory section which goes through the required steps to set up 
 
 At the end of this page are some short tips & tricks to make using WEKA even easier.
 
+### Not Included in This Tutorial
+
+**WekaDeeplearning4j** has a lot of features relating to deep-learning, but due to the limited scope of the tutorial, some of these were left out; this tutorial focuses solely on CNN-related techniques for image classification datasets. The following links may help you for other domains:
+
+- RNN training: [WekaDeeplearning4j Docs](https://deeplearning.cms.waikato.ac.nz/examples/classifying-imdb)
+- Image Segmentation: [ImageJ Docs](https://imagej.net/Trainable_Weka_Segmentation)
+
 ## Prerequisites
 - Java 8 or above. To check, run `java -version` from the command line and verify you get an output something like the following (exact version numbers may differ):
     ```sh
