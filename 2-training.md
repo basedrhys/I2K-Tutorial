@@ -1,5 +1,29 @@
 # Training Tutorial
 
+# The Iris Dataset
+
+A very common dataset to test algorithms with is the _Iris Dataset_ . The following explains how to build a neural network from the command line, programmatically in java and in the Weka workbench GUI.
+
+The iris dataset can be found in the `datasets/nominal` directory of the WekaDeeplearning4j package.
+
+Iris Visualization ![Iris Visualization](../img/iris.png)
+
+## Commandline
+Starting simple, the most straight forward way to create a neural network with this package is by using the commandline. A Single-Layer-Perceptron (the most basic neural network possible) is shown in the following
+```bash
+$ java weka.Run \
+    .Dl4jMlpClassifier \
+    -S 1 \
+    -layer "weka.dl4j.layers.OutputLayer \
+            -activation weka.dl4j.activations.ActivationSoftmax \
+            -lossFn weka.dl4j.lossfunctions.LossMCXENT" \
+    -config "weka.dl4j.NeuralNetConfiguration \
+            -updater weka.dl4j.updater.Adam" \
+    -numEpochs 10 \
+    -t datasets/nominal/iris.arff \
+    -split-percentage 80
+```
+
 ## The MNIST Dataset
   
 ![Mnist Example 0](../img/mnist/img_11854_0.jpg)
@@ -13,8 +37,6 @@
 ![Mnist Example 8](../img/mnist/img_10828_8.jpg)
 ![Mnist Example 9](../img/mnist/img_10239_9.jpg)
 
-
-
 The MNIST dataset provides images of handwritten digits of 10 classes (0-9) and suits the task of simple image classification. 
 
 The minimal MNIST arff file can be found in the `datasets/nominal` directory of the WekaDeeplearning4j package. This arff file lists all images in `datasets/nominal/mnist-minimal` and annotates their path with their class label.
@@ -22,7 +44,6 @@ The minimal MNIST arff file can be found in the `datasets/nominal` directory of 
 **Important note:** The arff dataset contains two features, the first one being the `filename` and the second one being the `class`. Therefore it is necessary to define an `ImageDataSetIterator` in `Dl4jMlpFilter` or `Dl4jMlpClassifier` which uses these filenames in the directory given by the option `-imagesLocation`.
 
 ## GUI: LeNet MNIST Evaluation
-
 
 The first step is to open the MNIST meta ARFF file in the Weka Explorer `Preprocess` tab via `Open File`. A randomly sampled MNIST dataset of 420 images is provided in the WekaDeeplearning4j package for testing purposes (`$WEKA_HOME/packages/wekaDeeplearning4j/datasets/nominal/mnist.meta.minimal.arff`). In the next step, the `Dl4jMlpClassifier` has to be selected as `Classifier` in the `Classify` tab. A click on the classifier will open the configuration window
 
