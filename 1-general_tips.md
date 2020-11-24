@@ -1,5 +1,11 @@
 # WEKA Setup / General Tips & Tricks
 
+## Introduction
+
+This is an introductory section which goes through the required steps to set up WEKA, **WekaDeeplearning4j**, and the GPU accelerated libraries (if your machine supports it).
+
+At the end of this page are some short tips & tricks to make using WEKA even easier.
+
 ## Prerequisites
 - Java 8 or above. To check, run `java -version` from the command line and verify you get an output something like the following (exact version numbers may differ):
     ```sh
@@ -13,9 +19,8 @@
 
 The commandline examples in this tutorial assume a few environment variables are set. These can instead be manually specified for each command but this can be verbose so it's recommended to set them as permanent environment variables.
 
-- `PATH`: The `bin/` folder of your Java installation should be appended to your `PATH` e.g., `C:\Program Files\Java\jdk1.8.0_271\bin`. If you can run the `java -version` command above then this is correctly set.
-- `WEKA_HOME`: This variable should point to the location of your WEKA installation, e.g., `C:\Program Files\weka-3-8-4`.
-- `CLASSPATH`: This variable is used by Java to locate classes to be preloaded. This can be manually specified for each command but is  abit arduous to do for every command, so it's recommended to set this permanently (at least for the duration of this tutorial). This variable should point to the location of `weka.jar` on your machine - typically inside the WEKA installation directory, e.g., `$env:WEKA_HOME\weka.jar`
+- `WEKA_HOME`: This variable should point to the location of your WEKA installation, e.g., `/home/rhys/weka-3.8.4`. It's used for some commands in this tutorial and by the `install-cuda-libs` script ([explained below](#wekadeeplearning4j-gpu-libraries)) for installing CUDA libraries for WEKA.
+- `CLASSPATH`: This variable is used by Java to locate classes to be preloaded. This can be manually specified for each command but this becomes arduous to do every time, so it's recommended to set this permanently (at least for the duration of this tutorial). This variable should point to the location of `weka.jar` on your machine - typically inside the WEKA installation directory, e.g., `$WEKA_HOME\weka.jar`.
 
 ## Installing WekaDeeplearning4j
 
@@ -40,28 +45,44 @@ Installed	Repository	Loaded	Package
 1.7.0    	-----     	Yes	    <PACKAGE>: Weka wrappers for Deeplearning4j
 ```
 
-The package can also be installed from the commandline 
+## Add GPU Support
 
-#### CPU
-For the package no further requisites are necessary.
+The GPU additions needs the CUDA Toolkit 10.0, 10.1, or 10.2 backend with the appropriate cuDNN library to be installed on your system. Nvidia provides some good installation instructions:
 
-#### GPU
-The GPU additions needs the CUDA Toolkit 10.0, 10.1, or 10.2 backend with the appropriate cuDNN library to be installed on your system. Nvidia provides some good installation instructions for all platforms:
-
-##### CUDA Toolkit
+### CUDA Toolkit
 - [Linux](http://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html)
-- [Mac OS X](http://docs.nvidia.com/cuda/cuda-installation-guide-mac-os-x/index.html)
 - [Windows](http://docs.nvidia.com/cuda/cuda-installation-guide-microsoft-windows/index.html)
 
-##### CUDNN
+### CUDNN
 - [Linux](https://docs.nvidia.com/deeplearning/sdk/cudnn-install/index.html#install-linux)
 - [Windows](https://docs.nvidia.com/deeplearning/sdk/cudnn-install/index.html#install-windows)
 
-## Add GPU Support
+### WekaDeeplearning4j GPU libraries
 
-To add GPU support, [download](https://github.com/Waikato/wekaDeeplearning4j/releases/latest) and run the latest `install-cuda-libs.sh` for Linux/Macosx or `install-cuda-libs.ps1` for Windows. Make sure CUDA is installed on your system as explained [here](https://deeplearning.cms.waikato.ac.nz/install/#gpu).
+After setting up CUDA correctly on your machine, you'll need to download the WekaDeeplearning4j CUDA/CUDNN libraries. [Download](https://github.com/Waikato/wekaDeeplearning4j/releases/latest) and run the latest `install-cuda-libs.sh` for Linux or `install-cuda-libs.ps1` for Windows.
 
 The install script automatically downloads the libraries and copies them into your wekaDeeplearning4j package installation. If you want to download the library zip yourself, choose the appropriate combination of your platform and CUDA version from the [latest release](https://github.com/Waikato/wekaDeeplearning4j/releases/latest) and point the installation script to the file, e.g.:
 ```bash
 ./install-cuda-libs.sh ~/Downloads/wekaDeeplearning4j-cuda-10.2-1.6.0-linux-x86_64.zip
 ```
+
+## General Tips
+
+### Running WEKA from the Command Line
+
+A common workflow is to experiment with different models/hyperparameters in the **WEKA Explorer** on a small subset of the data,
+then run the final configuration on a more powerful machine/server with the full dataset. Figuring out the correct command-line syntax can be difficult, especially for complex models, so WEKA has a `Copy configuration to clipboard` function.
+
+1. Set up your configuration in the **WEKA Explorer** window, then right click and click `Copy configuration to clipboard`:
+    
+    ![Copy configuration to clipboard example](./images/1-copyConfigToClipboard.png)
+
+2. Paste this into the command line (e.g., on your association's machine learning servers), specifying any other necessary flags run not included in the pasted configuration. For example training a `Dl4jMlpClassifier` can be done like:
+
+    ```bash
+    $ java weka.Run <Dl4jMlpClassifier configuration from clipboard> \
+        -t <.arff file previously loaded into Weka> \
+        -d <output model file path> \
+        -split-percentage 80
+    ```
+
