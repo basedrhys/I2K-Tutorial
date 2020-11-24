@@ -1,6 +1,4 @@
-# WEKA Setup / General Tips & Tricks
-
-## Introduction
+# Introduction & WEKA Setup
 
 This is an introductory section which goes through the required steps to set up WEKA, **WekaDeeplearning4j**, and the GPU accelerated libraries (if your machine supports it).
 
