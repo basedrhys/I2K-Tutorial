@@ -6,7 +6,7 @@ This section walks through one of the most common deep learning tasks - training
 
 A very common dataset to test algorithms with is the _Iris Dataset_, a simple 4-attribute classification dataset. The following explains how to build a neural network in the Weka workbench GUI and from the command line.
 
-![Iris Visualization](./images/2-training/iris.png)
+![Iris Visualization](./images/datasets/iris.png)
 
 ### GUI
 
@@ -40,16 +40,16 @@ $ java weka.Run \
 
 ## Image Data - the MNIST dataset
   
-![Mnist Example 0](./images/2-training/mnist/img_11854_0.jpg)
-![Mnist Example 1](./images/2-training/mnist/img_11253_1.jpg)
-![Mnist Example 2](./images/2-training/mnist/img_10320_2.jpg)
-![Mnist Example 3](./images/2-training/mnist/img_10324_3.jpg)
-![Mnist Example 4](./images/2-training/mnist/img_40694_4.jpg)
-![Mnist Example 5](./images/2-training/mnist/img_10596_5.jpg)
-![Mnist Example 6](./images/2-training/mnist/img_19625_6.jpg)
-![Mnist Example 7](./images/2-training/mnist/img_12452_7.jpg)
-![Mnist Example 8](./images/2-training/mnist/img_10828_8.jpg)
-![Mnist Example 9](./images/2-training/mnist/img_10239_9.jpg)
+![Mnist Example 0](./images/datasets/mnist/img_11854_0.jpg)
+![Mnist Example 1](./images/datasets/mnist/img_11253_1.jpg)
+![Mnist Example 2](./images/datasets/mnist/img_10320_2.jpg)
+![Mnist Example 3](./images/datasets/mnist/img_10324_3.jpg)
+![Mnist Example 4](./images/datasets/mnist/img_40694_4.jpg)
+![Mnist Example 5](./images/datasets/mnist/img_10596_5.jpg)
+![Mnist Example 6](./images/datasets/mnist/img_19625_6.jpg)
+![Mnist Example 7](./images/datasets/mnist/img_12452_7.jpg)
+![Mnist Example 8](./images/datasets/mnist/img_10828_8.jpg)
+![Mnist Example 9](./images/datasets/mnist/img_10239_9.jpg)
 
 This next section will walkthrough a more common scenario - training a neural network on an image-classification dataset. We will first demonstrate this simply with a cutdown version of the MNIST dataset, which provides images of handwritten digits of 10 classes (0-9). We'll also introduce you to the **WekaDeeplearning4j** Model Zoo.
 
@@ -77,6 +77,9 @@ If you click `Start` WEKA will throw an error (`...Dl4jMlpClassifier: Cannot han
 
 As we're training on the MNIST dataset, it would make sense to use a pretrained model suited for this. The `LeNet` architecture is one of the earliest CNN architectures, and was initially proposed in use with the MNIST dataset. The `Dl4jLeNet` model included in **WekaDeeplearning4j** brings this (relatively) basic CNN architecture which we'll use for this section.
 
+Note that the first time this is run it may need to download the pretrained weights, in which case actual runtime
+will be longer. These weights are cached locally so subsequent runs are much faster.
+
 ### GUI
 
 - In the `Dl4jMlpClassifier` settings change the `zooModel` from `CustomNet` to `Dl4jLeNet`.
@@ -95,8 +98,8 @@ You should get a marked improvement in accuracy over the previous (default layer
 
 ## Fine-tuning a model on a Custom Dataset
   
-![Plant Seedling 1](./images/2-training/plant-seedlings/0ac0f0a66.png)
-![Plant Seedling 1](./images/2-training/plant-seedlings/3affdd752.png)
+![Plant Seedling 1](./images/datasets/plant-seedlings/0ac0f0a66.png)
+![Plant Seedling 1](./images/datasets/plant-seedlings/3affdd752.png)
 
 This tutorial will walk through the steps required to finetune a pretrained model on your custom dataset.
 
@@ -151,7 +154,7 @@ The associated meta `.arff` file has been created at the path specified and can 
 For the sake of this tutorial, we'll use a pretrained Keras ResNet50 model. 
 - Select `KerasResNet` from the `zooModel` option.
 
-![Zoo Model Config](../img/gui/train-your-own-zooModel.png)
+![Zoo Model Config](./images/2-training/train-your-own-zooModel.png)
 
 Note that by default, the layer specification is **not** loaded in the GUI for usability reasons;
 loading the layers every time an option is changed can slow down the GUI significantly. If, however, you'd like
