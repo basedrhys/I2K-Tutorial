@@ -1,44 +1,55 @@
 # Training Tutorial
 
-This section walks through one of the most common deep learning tasks - training a Neural Network.
+This section walks through a common deep learning task - training a Neural Network. **WekaDeeplearning4j** allows you to do this in one of two ways, both of which will be explained in this section:
+- Design your own architecture, specifying a custom layer setup
+- Use a well-known pre-defined architecture from the **Model Zoo**. Most models from the **Model Zoo** have the added benefit of a pre-trained option, which tends to improve generality and reduce the training required on your end to achieve good performance.
 
-## Tabular Data - The Iris Dataset
+## Starting Simple - The Iris Dataset (Tabular)
 
-A very common dataset to test algorithms with is the _Iris Dataset_, a simple 4-attribute classification dataset. The following explains how to build a neural network in the Weka workbench GUI and from the command line.
+A very common dataset to test algorithms with is the _Iris Dataset_, a simple 4-attribute classification dataset. Although this is often used to demonstrate classical ML algorithms (e.g., boosting, decision trees), neural networks can also be applied to this style of dataset.
 
-![Iris Visualization](./images/datasets/iris.png)
+![Iris Visualization](./images/datasets/iris/irisData.png)
+![Iris Visualization](./images/datasets/iris/irisVis.png)
+
+We're going to start with a simple network, progressively adding layers and noting the effect this has on performance & model size.
 
 ### GUI
 
 - Click `Open file...` and open the `iris.arff` dataset.
 - Switch to the `Classify` panel and select `functions` > `Dl4jMlpClassifier` as the classifier.
-- Click `Start` to begin training. By default the classifier only has one layer (the output layer) but this does have trainable weights so can be fit to the dataset. Note the cross-validated accuracy. 
-- Try adding a single dense layer with 32 outputs and see how the accuracy improves. You'll note we've gone from 12 parameters, to 259 after only adding a single layer - neural networks can contain a lot of weights quite quickly as we add more layers.
-- Finally add one more layer with 32 outputs again - you should see a minor improvement in accuracy again, but not as much as before.
+- Click `Start` to begin training. You should see the **Progress Manager** show a progress bar indicating the progress and ETA. By default the classifier only has one layer (the output layer) but this does have trainable weights so can be fit to the dataset. Note the cross-validated accuracy. 
 
-By default WEKA performs 10-fold cross-validation on your data. This trains 10 different classifiers on subsets of the data, then averages their performance for the final summary result. This is fine for smaller datasets & models but as we continue this tutorial it may take too long to do full 10-fold cross-validation. A faster method is to do a training/test split on the loaded dataset.
-- In `Test options`, select `Percentage split` and set the `%` field to `80`. This will train the model on 80% of the data, evaluating it on the remaining 20%.
+We're now going to start adding some layers:
 
-### Commandline
+- Click `layer specification` to open the `GenericArrayEditor`. From here we can edit the model's layers. 
+- Click `Choose` and select the `DenseLayer`.
+- Open the `DenseLayer` settings and set `number of outputs` to `32`.
+- Click `OK` to save the configuration and click `Start` again to see how the accuracy improves. 
 
-<!-- TODO -->
+You'll note we've gone from 12 parameters, to 259 after only adding a single layer - neural networks can balloon in size very quickly as we add more layers!
 
-<!-- Starting simple, the most straight forward way to create a neural network with this package is by using the commandline. A Single-Layer-Perceptron (the most basic neural network possible) is shown in the following
+- Finally add one more `DenseLayer` with `8` outputs.
+
+![Layer config](./images/2-training/layer-setup.png)
+
+Train the model again and you should see a minor improvement in accuracy again, but not as much as before.
+
+You may notice it training the model many times; by default WEKA performs 10-fold cross-validation on your data. This trains 10 different classifiers on subsets of the data, then averages their performance for the final summary result. This is fine for smaller datasets & models but as we continue this tutorial and train larger models it may take too long. For the sake of this tutorial, a faster method is to do a training/test split on the loaded dataset.
+
+- In `Test options`, select `Percentage split` and set the `%` field to `80`. This will train the model on 80% of the data once, evaluating it on the remaining 20%.
+
+### Command Line
+
 ```bash
-$ java weka.Run \
-    .Dl4jMlpClassifier \
-    -S 1 \
-    -layer "weka.dl4j.layers.OutputLayer \
-            -activation weka.dl4j.activations.ActivationSoftmax \
-            -lossFn weka.dl4j.lossfunctions.LossMCXENT" \
-    -config "weka.dl4j.NeuralNetConfiguration \
-            -updater weka.dl4j.updater.Adam" \
-    -numEpochs 10 \
-    -t datasets/nominal/iris.arff \
+$ java weka.Run .Dl4jMlpClassifier \
+    -layer "weka.dl4j.layers.DenseLayer -nOut 8" \
+    -layer "weka.dl4j.layers.DenseLayer -nOut 32 " \
+    -layer "weka.dl4j.layers.OutputLayer -nOut" \
+    -t $WEKA_HOME/packages/wekaDeeplearning4j/datasets/nominal/iris.arff
     -split-percentage 80
-``` -->
+```
 
-## Image Data - the MNIST dataset
+## Starting Simple - The MNIST Dataset (Image)
   
 ![Mnist Example 0](./images/datasets/mnist/img_11854_0.jpg)
 ![Mnist Example 1](./images/datasets/mnist/img_11253_1.jpg)
@@ -51,83 +62,89 @@ $ java weka.Run \
 ![Mnist Example 8](./images/datasets/mnist/img_10828_8.jpg)
 ![Mnist Example 9](./images/datasets/mnist/img_10239_9.jpg)
 
-This next section will walkthrough a more common scenario - training a neural network on an image-classification dataset. We will first demonstrate this simply with a cutdown version of the MNIST dataset, which provides images of handwritten digits of 10 classes (0-9). We'll also introduce you to the **WekaDeeplearning4j** Model Zoo.
+This next section will walkthrough training a neural network on an image-classification dataset, using a cutdown version of the **MNIST** dataset, which provides images of handwritten digits of 10 classes (0-9). We'll also introduce you to the **WekaDeeplearning4j** Model Zoo.
 
 ### GUI
 
 - Back in the `Preprocess` panel, open the `mnist.meta.minimal.arff` dataset.
-**Important note:** You'll notice that the format of this dataset is quite different to the previous one. Whereas *Iris* specified all attributes explicitly, this current *MNIST* `.arff` file only specifies the filename and its associated class; this is a much more common use case (especially for image classification) so it's important to understand how to work with this.
-- Reset the `Dl4jMlpClassifier` configuration by selecting a different classifier (e.g., `RnnSequenceClassifier`) and then changing back to the `Dl4jMlpClassifier`.
 
-If you click `Start` WEKA will throw an error (`...Dl4jMlpClassifier: Cannot handle string attributes`). This is because we're using a 'meta-style' dataset which only contains filenames. We need to configure the `Dl4jMlpClassifier` further to handle this new type of dataset.
+**Important note:** You'll notice that the format of this dataset is quite different to the previous one. Whereas `iris.arff` specified all attributes explicitly, this version of **MNIST** only specifies the filename and its associated class; this is a much more common use case (especially for image classification) so it's important to understand how to work with this in **WekaDeeplearning4j**.
+
+Going to the `Classify` panel, if you click `Start` WEKA will throw an error (`...Dl4jMlpClassifier: Cannot handle string attributes`). This is because we're using a 'meta-style' dataset which only contains filenames. We need to configure the `Dl4jMlpClassifier` further to handle this new type of dataset and tell it what to do with these filenames.
 - In the `Dl4jMlpClassifier` settings, change the `instance iterator` from `DefaultInstanceIterator` to `ImageInstanceIterator`.
 - In the `ImageInstanceIterator` settings, set the `directory of images` to the `mnist-minimal` folder, and the `size of mini batch` to 64 (you can reduce this if you run into out-of-memory issues). 
 
 ![Image Instance Iterator](./images/2-training/image-instance-iterator.png)
 
-- Leave all other settings as default and click `Start` to train your model on MNIST. You should get an accuracy ~71% which isn't great, but OK considering the model is only using the single output layer. Designing neural network architectures is an open research area and far outside the scope of this tutorial, so we won't dive too deep into custom layer setups but instead focus on using predefined architectures from the **WekaDeeplearning4j Model Zoo**.
+- Delete the 2 layers we previously added (leaving only the `OutputLayer`) and click `Start` to train your model. 
 
 ### Command Line
 
-<!-- TODO -->
+```bash
+$ java weka.Run .Dl4jMlpClassifier \
+    -iterator ".ImageInstanceIterator \
+        -imagesLocation $WEKA_HOME/packages/wekaDeeplearning4j/datasets/nominal/mnist-minimal -bs 64" \
+        -t $WEKA_HOME/packages/wekaDeeplearning4j/datasets/nominal/mnist.meta.minimal.arff \
+        -split-percentage 80
+```
 
-## Fine-tuning a model from the Model Zoo.
+You should get an accuracy ~71% which is OK considering the model is only using the single output layer. We won't go any further into custom architectures at this point but instead look at using a model from the **WekaDeeplearning4j Model Zoo**.
 
-**WekaDeeplearning4j's** Model Zoo contains a set of predefined state-of-the-art architectures which can be used on your dataset out-of-the-box. In addition, most of them include pre-trained weights which means they can require less training to converge than training a model from scratch (with randomly-initialized weights).
+## Adding Complexity - Fine-tuning a Zoo Model
 
-As we're training on the MNIST dataset, it would make sense to use a pretrained model suited for this. The `LeNet` architecture is one of the earliest CNN architectures, and was initially proposed in use with the MNIST dataset. The `Dl4jLeNet` model included in **WekaDeeplearning4j** brings this (relatively) basic CNN architecture which we'll use for this section.
+**WekaDeeplearning4j's** Model Zoo contains a set of predefined state-of-the-art architectures which can be used on your dataset out-of-the-box. In addition, most of them include pre-trained weights so they often require less training to converge than training a model from scratch (with randomly-initialized weights).
 
-Note that the first time this is run it may need to download the pretrained weights, in which case actual runtime
-will be longer. These weights are cached locally so subsequent runs are much faster.
+As we're training on **MNIST**, it would make sense to use a pretrained model suited for this dataset. The **LeNet** architecture is one of the earliest CNN architectures proposed and was initially done so for use on the **MNIST** dataset. The `Dl4jLeNet` model included in **WekaDeeplearning4j** makes this (relatively) basic CNN architecture available, which we'll use for this section.
+
+Note that the first time this is run the pretrained weights may need to be downloaded in which case actual runtime will be longer. These weights are cached locally so subsequent runs are faster.
 
 ### GUI
 
 - In the `Dl4jMlpClassifier` settings change the `zooModel` from `CustomNet` to `Dl4jLeNet`.
 - That's all you need to change! Click `Start` to begin fine-tuning the pretrained `Dl4jLeNet` model.
 
-You should get a marked improvement in accuracy over the previous (default layer-setup) model of ~88%.
+You should get a marked improvement in accuracy over the previous (default layer-setup) model of ~88% with a single click - using pretrained models couldn't get much easier!
 
 ### Commandline
 
-<!-- TODO -->
-
-#### Further Experiments
-- Try different numbers of epochs (10, 20, 30, 40, 50) in the `Dl4jMlpClassifier` settings.
-- Try training the `Dl4jLeNet` model *without* pretrained weights.
-    - In the `Dl4jLeNet` settings, change `Pretrained type` from `MNIST` to `None`
+```bash
+$ java weka.Run .Dl4jMlpClassifier \
+    -iterator ".ImageInstanceIterator \
+        -imagesLocation $WEKA_HOME/packages/wekaDeeplearning4j/datasets/nominal/mnist-minimal -bs 64" \
+        -zooModel ".Dl4jLeNet" \
+        -t $WEKA_HOME/packages/wekaDeeplearning4j/datasets/nominal/mnist.meta.minimal.arff \
+        -split-percentage 80
+```
 
 ## Fine-tuning a model on a Custom Dataset
-  
+
+The previous section is a useful walkthrough if you're training a model on a dataset which already has an `.arff` file correctly defined. For most use-cases 'in the wild', however, this is not the case; a more common case for image classification is a 'folder organised' dataset format - images are sorted into subfolders, with the class name being the subfolder name. This format is intuitive and easy to work with but cannot be loaded directly into WEKA without a few extra steps.
+
+The dataset used in this tutorial is from the [Plant Seedlings Classification](https://www.kaggle.com/c/plant-seedlings-classification) competition on Kaggle, which is supplied in the tutorial asset folder.
+
 ![Plant Seedling 1](./images/datasets/plant-seedlings/0ac0f0a66.png)
 ![Plant Seedling 1](./images/datasets/plant-seedlings/3affdd752.png)
-
-This tutorial will walk through the steps required to finetune a pretrained model on your custom dataset.
-
-The dataset used in this tutorial is from the [Plant Seedlings Classification](https://www.kaggle.com/c/plant-seedlings-classification) competition on Kaggle. Visit the link to download the dataset.
-
-The previous section is a useful walkthrough if you're training a model on a dataset which already has an `.arff` file correctly defined. For most use-cases in the wild, however, this is not the case; a more common case is a 'folder organised' dataset format - images are sorted into subfolders, with the class name being the subfolder name. This format is intuitive and easy to work with but cannot be loaded directly into WEKA without further processing.
 
 ### Loading a dataset in without an `.arff` file - Introduction to the **ImageDirectoryLoader**
 
 **WekaDeeplearning4j** comes with the `ImageDirectoryLoader`, a simple tool which creates an `.arff` file from a 'folder organised' dataset.
 
 #### GUI Usage
-The `ImageDirectoryLoader` can be invoked by selecting a **folder** instead of a **file** from the
-`Open file...` menu.
+The `ImageDirectoryLoader` can be invoked by selecting a *folder* instead of a *file* from the `Open file...` menu.
 
-Click `Open File...` and navigate to the `train/` folder in the Plant Seedlings dataset
-you just downloaded.
+- Click `Open File...` and navigate to the `train/` folder in the Plant Seedlings dataset you just downloaded.
 
-![Image Directory](./images/2-training/train-your-own-image-loader.png)
+    ![Image Directory](./images/2-training/train-your-own-image-loader.png)
 
-Click `Ok` and choose the `ImageDirectoryLoader` in the following popup.
+- Click `Ok` and choose the `ImageDirectoryLoader` in the following popup.
 
-![Image Directory](./images/2-training/train-your-own-image-loader-2.png)
+    ![Image Directory](./images/2-training/train-your-own-image-loader-2.png)
 
-There are no settings to change so simply click `OK` to run - you should be taken back to the 
-`Preprocess` panel with your instances now loaded.
+- There are no settings to change so simply click `OK` to run - you should be taken back to the `Preprocess` panel with your instances now loaded.
 
-![Image Directory](./images/2-training/train-your-own-image-loader-complete.png)
+    ![Image Directory](./images/2-training/train-your-own-image-loader-complete.png)
+
+The **ImageDirectoryLoader** loads the dataset into the 'meta' format similarly to the MNIST dataset we used above.
 
 #### Commandline Usage
 The tool can also be run from the command line
@@ -139,78 +156,78 @@ e.g.:
 java weka.Run .ImageDirectoryLoader -i /path/to/plant-seedlings/data/train -name plant-seedlings-train.arff
 ```
 
-The associated meta `.arff` file has been created at the path specified and can be loaded into WEKA just as any other `.arff` file. As we're simply checking accuracy within WEKA, we won't load in the `test/` data and submit it to Kaggle - that is outside the scope of this tutorial.
+The associated meta `.arff` file has been created at the path specified and can be loaded into WEKA just as any other `.arff` file. 
 
-**Important note:** This process creates a 'meta' arff which contains two features, the first one being the `filename` and the second one being the `class`. As above, it is necessary to define an `ImageInstanceIterator` (in `Dl4jMlpFilter` or `Dl4jMlpClassifier`) which uses these filenames in the directory given by the option `-imagesLocation`.
+As we're simply checking accuracy within WEKA, we won't load in the `test/` data and submit it to Kaggle - that is outside the scope of this tutorial.
 
 ### Training - GUI
+
+Now that we've loaded our custom dataset, we can get back to setting up our model.
 
 - If you haven't already, set `Dl4jMlpClassifier` as the `Classifier` and select the `ImageInstanceIterator` as `instance iterator`.
 - In the `ImageInstanceIterator` settings, set the `images location` to the `train/` directory in the Plant Seedlings dataset folder.
 - As we'll be using a larger model than before, your machine may not be able to handle a `batch size` of `64`. Set it to `8` for now. We'll be using a pretrained model (which has a fixed input size) so the width, height, and number of channels don't need to be set. 
 
-![Image Instance Iterator](./images/2-training/train-your-own-iii.png)
+    ![Image Instance Iterator](./images/2-training/train-your-own-iii.png)
 
-For the sake of this tutorial, we'll use a pretrained Keras ResNet50 model. 
+
+For the sake of this example, we'll use the tried-and-tested **ResNet** architecture.
+<!-- For the sake of this example, we'll use the newly-announced **EfficientNet** architecture, which out-performed previous SOTA classification models at a range of model sizes ([blog post](https://ai.googleblog.com/2019/05/efficientnet-improving-accuracy-and.html)):  -->
+
 - Select `KerasResNet` from the `zooModel` option.
 
-![Zoo Model Config](./images/2-training/train-your-own-zooModel.png)
+    ![Zoo Model Config](./images/2-training/train-your-own-zooModel.png)
 
 Note that by default, the layer specification is **not** loaded in the GUI for usability reasons;
 loading the layers every time an option is changed can slow down the GUI significantly. If, however, you'd like
 to view the layers of the zoo model you've selected, set the `Load layer specification in GUI` flag to true.
 
-A holdout evaluation strategy has to be selected in the `Test options` box via `Percentage split`, 
-which can be set to 66% for a 2/3 - 1/3 split. The classifier training is now ready to be started with the `Start` button. 
-The resulting classifier evaluation can be examined in the `Classifier output` box. Here, an evaluation summary is shown for the training and testing split. 
+#### Rapid Prototyping
 
-The above setup, trained for 20 epochs with a batch size of 16 produces a classification accuracy of 94.51% on the
- test data.
+One difficulty with rapid prototyping in ML is that large datasets & models can increase your iteration time, slowing down development. Following are some useful techniques to avoid this:
 
-```text
+**Dataset Resampling**
 
-Correctly Classified Instances        1497               94.5076 %
-Incorrectly Classified Instances        87                5.4924 %
-Kappa statistic                          0.9392
-Mean absolute error                      0.01  
-Root mean squared error                  0.0894
-Relative absolute error                  6.6502 %
-Root relative squared error             32.5587 %
-Total Number of Instances             1584     
+Using the `Resample` filter, we can randomly take out instances from our dataset while roughly preserving the class balance (how many images are in each category). 
 
-=== Confusion Matrix ===
+- In the `Preprocess` panel, select the `Resample` filter:
 
-   a   b   c   d   e   f   g   h   i   j   k   l   <-- classified as
-  44   0   0   0   6   0  38   0   0   0   0   0 |   a = Black-grass
-   0 128   0   0   0   1   0   0   0   1   0   0 |   b = Charlock
-   0   0  92   2   0   0   0   0   0   0   0   2 |   c = Cleavers
-   0   1   0 202   0   0   1   0   0   0   0   0 |   d = Common Chickweed
-   2   0   0   0  69   0   2   0   0   0   0   1 |   e = Common wheat
-   1   0   1   0   1 154   0   0   0   0   0   1 |   f = Fat Hen
-  11   0   0   0   0   0 206   0   1   0   0   0 |   g = Loose Silky-bent
-   0   0   0   0   0   0   3  71   0   0   0   0 |   h = Maize
-   1   0   0   0   0   0   0   0 171   0   0   0 |   i = Scentless Mayweed
-   0   0   0   1   0   0   0   0   5  71   0   0 |   j = Shepherds Purse
-   0   0   0   0   0   0   1   0   0   0 164   0 |   k = Small-flowered Cranesbill
-   0   1   0   2   0   0   0   0   0   0   0 125 |   l = Sugar beet
-```
+    ![Resample filter](./images/2-training/resample-filter.png)
 
+- Set the `sampleSizePercent` to a value < `100`:
 
-## Training - Commandline
+    ![Resample config](./images/2-training/resample-config.png)
+
+- Click `Apply` to resample the dataset down to your specified size.
+
+**Reduce Training Epochs**
+
+As we're getting to modern CNN architectures, their size becomes large and training takes a long time. We can reduce the training time during experimentation, and then easily scale it back up once we've decided on the configuration.
+
+- Set `number of epochs` to `1`
+
+We're now ready for a short training run.
+
+- Keeping the same `80%` split, click `Start`
+
+### Training - Commandline
 Ensure `weka.jar` is on the classpath. The following run finetunes a pretrained ResNet model for 20 epochs. This shows how to specify a non-default variation from the command line.
 ```bash
 $ java weka.Run \
     .Dl4jMlpClassifier \
     -S 1 \
-    -iterator ".ImageInstanceIterator -imagesLocation plant-seedlings/data/train -bs 16" \
-    -normalization "Standardize training data" \
-    -zooModel ".KerasResNet -variation RESNET152V2" \
-    -config "weka.dl4j.NeuralNetConfiguration -updater \"weka.dl4j.updater.Adam -lr 0.1\"" \
-    -numEpochs 20 \
+    -iterator ".ImageInstanceIterator -imagesLocation plant-seedlings/data/train -bs 8" \
+    -zooModel ".KerasResNet" \
+    -numEpochs 1 \
     -t plant-seedlings/data/train/plant-seedlings-train.arff \
-    -split-percentage 66
+    -split-percentage 80
 ```
 
-#### Further Experiments
+## Further Experiments
 
-The default variation is `RESNET50`, so we'll change that to `RESNET152V2`.
+We've introduced a few new features already, so now is the time to do some exploration of your own. Below are some suggestions for things to try out.
+
+- **Custom Dataset** - if you've got your own dataset, try loading that into WEKA for your exploration. If not, feel free to use one of the other datasets provided in the asset pack.
+- **Custom Layer architecture** - Designing neural network architectures is an open research area which we only briefly touched on so now's the time to try creating your own model and getting a feel for CNNs. Start with a blank `Dl4jMlpClassifier` and create your own architecture; you may like to refer to the [model summaries](https://deeplearning.cms.waikato.ac.nz/user-guide/model-zoo/#model-summaries) for some inspiration.
+- **Different Zoo Models** - After trying to create your own model, try out some of the different models (and variations) available in the **Model Zoo**.
+- **Hyperparameter tuning** - Part of becoming a competent deep learning practitioner is having an intuition for training hyperparameters and the effect it has on a model's overall accuracy. Try altering some parts of the `Dl4jMlpClassifier` config, e.g. with your custom model architecture, try different numbers of epochs (10, 20, 30, 40, 50).
