@@ -22,10 +22,10 @@ At the end of this page are some short tips & tricks to make using WEKA even eas
 
 ## Environment Variables
 
-The commandline examples in this tutorial assume a few environment variables are set. These can instead be manually specified for each command but this can be verbose so it's recommended to set them as permanent environment variables.
+The command-line examples in this tutorial assume a few environment variables are set. You can ignore these if you only wish to use the GUI.
 
-- `WEKA_HOME`: This variable should point to the location of your WEKA installation, e.g., `/home/rhys/weka-3.8.4`. It's used for some commands in this tutorial and by the `install-cuda-libs` script ([explained below](#wekadeeplearning4j-gpu-libraries)) for installing CUDA libraries for WEKA.
-- `CLASSPATH`: This variable is used by Java to locate classes to be preloaded. This can be manually specified for each command but this becomes arduous to do every time, so it's recommended to set this permanently (at least for the duration of this tutorial). This variable should point to the location of `weka.jar` on your machine - typically inside the WEKA installation directory, e.g., `$WEKA_HOME\weka.jar`.
+- `WEKA_HOME`: This variable should point to the location of your WEKA installation, e.g., `/home/rhys/weka-3.8.4`. It's used for some commands in this tutorial and by the `install-cuda-libs` script ([explained below](#wekadeeplearning4j-gpu-libraries)) to install CUDA libraries for WEKA.
+- `CLASSPATH`: This variable is used by Java to locate classes to loaded before running. This can be manually specified for each command-line run but this becomes arduous to do every time, so it's recommended to set this permanently (at least for the duration of this tutorial). This variable should point to the location of `weka.jar` on your machine - typically inside the WEKA installation directory, e.g., `$WEKA_HOME\weka.jar`.
 
 ## Installing WekaDeeplearning4j
 
@@ -78,9 +78,9 @@ The install script automatically downloads the libraries and copies them into yo
 ### Running WEKA from the Command Line
 
 A common workflow is to experiment with different models/hyperparameters in the **WEKA Explorer** on a small subset of the data,
-then run the final configuration on a more powerful machine/server with the full dataset. Figuring out the correct command-line syntax can be difficult, especially for complex models, so WEKA has a `Copy configuration to clipboard` function.
+then run the final configuration on a more powerful machine/server with the full dataset. Figuring out the correct command-line syntax on the server directly can be difficult, especially for complex models, so WEKA has a `Copy configuration to clipboard` function.
 
-1. Set up your configuration in the **WEKA Explorer** window, then right click and click `Copy configuration to clipboard`:
+1. Set up your configuration in the **WEKA Explorer** window (e.g., on your local machine), then right click and click `Copy configuration to clipboard`:
     
     ![Copy configuration to clipboard example](./images/1-introduction_setup/CopyConfiguration.png)
 
