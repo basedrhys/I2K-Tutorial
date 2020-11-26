@@ -34,7 +34,9 @@ The final required step is to install the **WekaDeeplearning4j** package from th
 - Select `wekaDeeplearning4j` from the package list (near the bottom) and click `Install`. The package size is ~500mb so this may take a few moments.
 - Restart WEKA to use the newly installed package.
 
-The package can also be  simply via the commandline by downloading the most recent [package zip](https://github.com/Waikato/wekaDeeplearning4j/releases/latest):
+![Package Manager](./images/1-introduction_setup/PackageManager.png)
+
+The package can also be installed simply via the command-line by downloading the most recent [package zip](https://github.com/Waikato/wekaDeeplearning4j/releases/latest), then running:
 ```bash
 $ java weka.core.WekaPackageManager -install-package <PACKAGE-ZIP>
 ```
@@ -47,7 +49,7 @@ which results in
 ```
 Installed	Repository	Loaded	Package
 =========	==========	======	=======
-1.7.0    	-----     	Yes	    <PACKAGE>: Weka wrappers for Deeplearning4j
+1.7.0    	1.7.0     	Yes	    wekaDeeplearning4j: Weka wrappers for Deeplearning4j
 ```
 
 ## Add GPU Support
@@ -80,7 +82,7 @@ then run the final configuration on a more powerful machine/server with the full
 
 1. Set up your configuration in the **WEKA Explorer** window, then right click and click `Copy configuration to clipboard`:
     
-    ![Copy configuration to clipboard example](./images/1-copyConfigToClipboard.png)
+    ![Copy configuration to clipboard example](./images/1-introduction_setup/CopyConfiguration.png)
 
 2. Paste this into the command line (e.g., on your association's machine learning servers), specifying any other necessary flags run not included in the pasted configuration. For example training a `Dl4jMlpClassifier` can be done like:
 
