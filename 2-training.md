@@ -90,7 +90,7 @@ $ java weka.Run .Dl4jMlpClassifier \
 
 You should get an accuracy ~71% which is OK considering the model is only using the single output layer. We won't go any further into custom architectures at this point but instead look at using a model from the **WekaDeeplearning4j Model Zoo**.
 
-## Adding Complexity - Fine-tuning a Zoo Model
+## Fine-tuning a Zoo Model
 
 **WekaDeeplearning4j's** Model Zoo contains a set of predefined state-of-the-art architectures which can be used on your dataset out-of-the-box. In addition, most of them include pre-trained weights so they often require less training to converge than training a model from scratch (with randomly-initialized weights).
 
@@ -225,7 +225,7 @@ $ java weka.Run \
 
 ## Further Experiments
 
-We've introduced a few new features already, so now is the time to do some exploration of your own. Below are some suggestions for things to try out.
+We've introduced a few new features already, so now is the time to do some exploration of your own. Below are some suggestions for things to try out - try improve the accuracy over what we achieved with defaults.
 
 - **Custom Dataset** - if you've got your own dataset, try loading that into WEKA for your exploration. If not, feel free to use one of the other datasets provided in the asset pack.
 - **Custom Layer architecture** - Designing neural network architectures is an open research area which we only briefly touched on so now's the time to try creating your own model and getting a feel for CNNs. Start with a blank `Dl4jMlpClassifier` and create your own architecture; you may like to refer to the [model summaries](https://deeplearning.cms.waikato.ac.nz/user-guide/model-zoo/#model-summaries) for some inspiration.
