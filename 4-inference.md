@@ -8,6 +8,8 @@ at to make its prediction*.
 
 This section walks through a few common usage scenarios with the panel, including simple inference and more advanced **saliency map** generation.
 
+<!-- TODO change to asset pack -->
+
 Where the examples below use an image, this can be found at:
 
     $WEKA_HOME/packages/wekaDeeplearning4j/src/test/resources/images/ 
@@ -17,7 +19,7 @@ Where the examples below use an image, this can be found at:
 The package has set reasonable default values for simple inference on images of everyday objects (animals, food, vehicles, etc.). 
 
 This example uses the built-in `Dl4jResNet50` model (pretrained
- on IMAGENET) to perform prediction on your image.
+ on IMAGENET) to perform prediction.
 
 ### GUI
 
@@ -32,7 +34,7 @@ prediction results below the image:
 
 ![Predicted pufferfish image](./images/4-inference/panel_pufferfish_predicted.png)
 
-As we can see the model (`Dl4jResNet50`) has successfully predicted the image as that of a **Pufferfish**!
+As we can see, the model (`Dl4jResNet50`) has successfully predicted the image as that of a **Pufferfish**!
 
 ### Command Line
 
@@ -57,11 +59,11 @@ pufferfish.jpg - Dl4jResNet50
 ==================================================================
 ```
 
-## Example 2: Simple Inference with Custom Parameters
+## Simple Inference with Custom Parameters
 
 The previous example showed how with absolutely no configuration we can run a pretrained deep learning
 model, but we may want to configure the model a little further. This example shows how to use
-the `VGG16` model (pretrained on the `VGGFACE` dataset) to perform **celebrity prediction**.
+the `VGG16` model (pretrained on the `VGGFACE` dataset) to perform **celebrity face prediction**.
 
 For the purposes of this tutorial, we'll use an image of **Ben Stiller** (`ben_stiller.jpg`) 
 to perform prediction on.
@@ -72,11 +74,12 @@ On the `Dl4j Inference` panel, open the `Dl4jCNNExplorer` settings:
 
 - Choose `Dl4jVGG` as the `Pretrained zoo model`.
     - Open the `Dl4jVGG` settings and change the `Pretrained Type` from `IMAGENET` to `VGGFACE`.
+    
+        ![Dl4jVGG Settings](./images/4-inference/Dl4jVGG_VGGFace.png)
+
 - Open the `ModelOutputDecoder` settings and change `Built in class map` from `IMAGENET` to `VGGFACE`.
 
-![Dl4jVGG Settings](./images/4-inference/Dl4jVGG_VGGFace.png)
-
-![ModelOutputDecoder Settings](./images/4-inference/ModelOutputDecoder_VGGFace.png)
+    ![ModelOutputDecoder Settings](./images/4-inference/ModelOutputDecoder_VGGFace.png)
 
 - Click `Ok` and `Start` to run the newly configured model on our image of Ben Stiller. You should
 see the results in the output panel, again correctly predicting the target class.
@@ -106,15 +109,15 @@ ben_stiller.jpg - Dl4jVGG (VGG16)
 ==========================================
 ```
 
-## Example 3: Simple Inference with Custom Trained Model
+## Inference with Custom Trained Model
 
-Although a very diverse dataset (IMAGENET) was used to train many of the built-in zoo models 
-(meaning they can perform accurate prediction in a wide range of domains), 
-you may instead have a custom-trained `Dl4jMlpClassifier` 
-(e.g., using [this tutorial](classifying-mnist.md), refer to image below on model saving)
-which you'd like to experiment with; the process is largely the same as above, with a few minor changes.
+Although a very diverse dataset (IMAGENET) was used to train many of the built-in zoo models (meaning they can perform accurate prediction in a wide range of domains), you may instead have a custom-trained `Dl4jMlpClassifier` which you'd like to experiment with; the process is largely the same as above, with a few minor changes.
+
+To save a model you've trained in WEKA, right click on the result and click `Save model`.
 
 ![Saving a Dl4jMlpClassifier](./images/4-inference/Explorer_saveModel.png)
+
+Provided in the asset pack is a ResNet50 model trained on the APTOS dataset.
 
 ### GUI
 
@@ -122,15 +125,16 @@ On the `Dl4j Inference` panel, open the `Dl4jCNNExplorer` settings:
 
 - Set `Use custom-trained model file` to `True`
 - Open the `CustomModelSetup` settings
-    - Select your previously saved `.model` file as the `Serialized model file`
-    - Set the input `channels`, `width`, and `height` with the values used to train the model. 
-    These values will be identical to those set on the `ImageInstanceIterator`. 
-- Open the `ModelOutputDecoder` settings:
-    - Set `Built in class map` to `CUSTOM`
-    - Select the `Class map file` on your machine. This can be in two forms:
-        - `.txt` - Each class is placed on a new line (example below)
-        - `.arff` - The `.arff` file used to train the model can be selected; 
-        the classes will be parsed from this.
+    - Select the supplied `.model` file as the `Serialized model file`
+    - Set the input `channels`, `width`, and `height` with the values used to train the model. These values will be identical to those set on the `ImageInstanceIterator` (in this case `3`, `224`, `224`, respectively).
+
+        ![Dl4jCNNExplorer Settings](./images/4-inference/Dl4jCNNExplorer_customModel.png)
+
+        <!-- TODO change to actual model file -->
+
+We now need to configure the `ModelOutputDecoder` to correctly parse the model predictions and map the class IDs with the appropriate class name. Class maps can be in two forms:
+1. **`.txt`** - Each class is specified on a new line (example below)
+2. **`.arff`** - The `.arff` file used to train the model can be selected; the classes will be parsed from this.
 
 *Sample `classmap.txt` for the Plant Seedlings dataset*
 ```text
@@ -148,20 +152,19 @@ Charlock
 Black-grass
 ```
 
-![Dl4jCNNExplorer Settings](./images/4-inference/Dl4jCNNExplorer_customModel.png)
+Configure the `ModelOutputDecoder`:
+- Set `Built in class map` to `CUSTOM`
+- Select the `aptos_train.arff` as the `Class map file` 
 
-![ModelOutputDecoder Settings](./images/4-inference/ModelOutputDecoder_custom.png)
+    ![ModelOutputDecoder Settings](./images/4-inference/ModelOutputDecoder_custom.png)
 
-Just like the previous examples, the custom model can perform inference on any image, although 
-for meaningful results you should run it on images in the domain it was trained on - a model trained
-to classify between different dog breeds isn't going to give accurate answers when given a chest x-ray!
+Just like the previous examples, the custom model can perform inference on any image, although for meaningful results you should run it on images in the domain it was trained on - a model trained to classify between different dog breeds isn't going to give accurate answers when given a chest x-ray!
+
+- Open an image from the supplied **APTOS** dataset and click `Start` to perform prediction on it. You can check the supplied `.arff` file to verify the predictions are accurate.
 
 ### Command Line
 
-This example uses a custom-trained model which used an `ImageInstanceIterator` using 
-`channels`, `width`, and `height` of `3`, `56`, `56`, respectively. These values are explicitly
-defined in the `CustomModelSetup`.
- 
+<!-- TODO set to actual paths -->
 ```bash
 $ java weka.Run .Dl4jCNNExplorer \
     -i path/to/image.jpg \
@@ -172,21 +175,13 @@ $ java weka.Run .Dl4jCNNExplorer \
 
 ## Example 4: Saliency Map Generation
 
-After running prediction on your image, you may be left wondering what *specifically* the model was
-looking at to make its prediction - a saliency map can help explain this.
+After running prediction on your image, you may be left wondering what *specifically* the model was looking at to make its prediction - a saliency map can help explain this.
 
-WekaDeeplearning4j currently contains the **ScoreCAM** saliency map generation technique,
-which essentially copies the original image hundreds of times, masks each image differently,
-measures how strong the model predicts the target class for each masked image, and uses this
-to create a weighted combination. The idea being that masked images showing *important* parts of the 
-image will produce a strong signal for the target class and therefore be weighted more heavily.
+WekaDeeplearning4j currently contains the **ScoreCAM** saliency map generation technique, which essentially copies the original image hundreds of times, masks each image differently, measures how strong the model predicts the target class for each masked image, and uses this to create a weighted combination. The idea being that masked images showing *important* parts of the image will produce a strong signal for the target class and therefore be weighted more heavily.
 
-Because the model must perform inference on hundreds of images, the process can take much longer
-than simple prediction (2-3 minutes). This can be sped up with the use of a modern GPU 
-([setup instructions](https://deeplearning.cms.waikato.ac.nz/install/#add-gpu-support))
+Because the model must perform inference on hundreds of images, the process can take much longer (2-3 minutes) than simple prediction. This can be sped up with the use of a modern GPU ([setup instructions](https://deeplearning.cms.waikato.ac.nz/install/#add-gpu-support)).
 
-For the purpose of this tutorial, we'll use **ResNet 101** to perform prediction and 
-generate the saliency map.
+For the purpose of this tutorial, we'll use **ResNet 101** to perform prediction and generate the saliency map.
 
 ### GUI
 
@@ -262,3 +257,12 @@ $ java weka.Run .Dl4jCNNExplorer \
     -saliency-map ".WekaScoreCAM -bs 8 -normalize -output output_image.png -target-classes -1,281" \
     -zooModel ".KerasResNet -variation RESNET101"
 ```
+
+## Experimentation Time
+
+The `Dl4j Inference` panel is made for playing around, so get your hands dirty. Here are some suggestions for things to play around with.
+
+- Try downloading some images of household objects of the internet and pass them in to one of the pretrained models - does it struggle on some particularly complex cases?
+- Find a picture of your favourite celebrity, set up the `Dl4jCNNExplorer` for [celebrity prediction](#simple-inference-with-custom-parameters), and see if the model can correctly predict who they are. You may need to check the [VGGFACE](https://deeplearning.cms.waikato.ac.nz/user-guide/class-maps/VGGFACE) class map to ensure your chosen celebrity is in the dataset.
+- Make sure to try out different models in the Model Zoo. Some are much larger than others, but can provide more accurate predictions.
+- If you've trained a `Dl4jMlpClassifier` model in WEKA, try load it in and perform inference on images from the dataset it was trained on - how accurate is it at doing so?
