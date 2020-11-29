@@ -8,9 +8,7 @@ at to make its prediction*.
 
 This section walks through a few common usage scenarios with the panel, including simple inference and more advanced **saliency map** generation.
 
-<!-- TODO change to asset pack -->
-
-Where the examples below use an image, this can be found at:
+Where the examples below use an image, this can be found in the `test-images/` asset pack folder or the test images folder included with **WekaDeeplearning4j**:
 
     $WEKA_HOME/packages/wekaDeeplearning4j/src/test/resources/images/ 
 
@@ -111,13 +109,19 @@ ben_stiller.jpg - Dl4jVGG (VGG16)
 
 ## Inference with Custom Trained Model
 
+![APTOS Example Image](./images/datasets/aptos/0a38b552372d.png)
+![APTOS Example Image](./images/datasets/aptos/0a902c80d5da.png)
+![APTOS Example Image](./images/datasets/aptos/0e0003ddd8df.png)
+
 Although a very diverse dataset (IMAGENET) was used to train many of the built-in zoo models (meaning they can perform accurate prediction in a wide range of domains), you may instead have a custom-trained `Dl4jMlpClassifier` which you'd like to experiment with; the process is largely the same as above, with a few minor changes.
 
 To save a model you've trained in WEKA, right click on the result and click `Save model`.
 
 ![Saving a Dl4jMlpClassifier](./images/4-inference/Explorer_saveModel.png)
 
-Provided in the asset pack is a ResNet50 model trained on the APTOS dataset.
+Provided in the asset pack is a model trained on the [APTOS](https://www.kaggle.com/c/aptos2019-blindness-detection/) dataset. This contains a large set of retina images taken using fundus photography under a variety of imaging conditions, with the task of classifying an image severity between 0-4. Check out the [dataset page](https://www.kaggle.com/c/aptos2019-blindness-detection/) for more info.
+
+The data and model for this section are under the `aptos-blindness/` asset pack folder. A subset of the images are provided but feel free to download the full dataset if you'd like to train your own model.
 
 ### GUI
 
@@ -129,8 +133,6 @@ On the `Dl4j Inference` panel, open the `Dl4jCNNExplorer` settings:
     - Set the input `channels`, `width`, and `height` with the values used to train the model. These values will be identical to those set on the `ImageInstanceIterator` (in this case `3`, `224`, `224`, respectively).
 
         ![Dl4jCNNExplorer Settings](./images/4-inference/Dl4jCNNExplorer_customModel.png)
-
-        <!-- TODO change to actual model file -->
 
 We now need to configure the `ModelOutputDecoder` to correctly parse the model predictions and map the class IDs with the appropriate class name. Class maps can be in two forms:
 1. **`.txt`** - Each class is specified on a new line (example below)
@@ -154,7 +156,7 @@ Black-grass
 
 Configure the `ModelOutputDecoder`:
 - Set `Built in class map` to `CUSTOM`
-- Select the `aptos_train.arff` as the `Class map file` 
+- Select `train_aptos.arff` as the `Class map file` 
 
     ![ModelOutputDecoder Settings](./images/4-inference/ModelOutputDecoder_custom.png)
 
@@ -164,12 +166,13 @@ Just like the previous examples, the custom model can perform inference on any i
 
 ### Command Line
 
-<!-- TODO set to actual paths -->
+This assumes you're running the terminal from within the `aptos-blindness/` asset folder.
+
 ```bash
 $ java weka.Run .Dl4jCNNExplorer \
-    -i path/to/image.jpg \
-    -custom-model ".CustomModelSetup -channels 3 -height 56 -width 56 -model-file path/to/customModel.model" \
-    -decoder ".ModelOutputDecoder -builtIn CUSTOM -classMapFile path/to/training.arff" \
+    -i train_images/0083ee8054ee.png \
+    -custom-model ".CustomModelSetup -channels 3 -height 224 -width 224 -model-file 224x224x3_aptos.model" \
+    -decoder ".ModelOutputDecoder -builtIn CUSTOM -classMapFile train_aptos.arff" \
     -useCustomModel
 ```
 
@@ -181,7 +184,7 @@ WekaDeeplearning4j currently contains the **ScoreCAM** saliency map generation t
 
 Because the model must perform inference on hundreds of images, the process can take much longer (2-3 minutes) than simple prediction. This can be sped up with the use of a modern GPU ([setup instructions](https://deeplearning.cms.waikato.ac.nz/install/#add-gpu-support)).
 
-For the purpose of this tutorial, we'll use **ResNet 101** to perform prediction and generate the saliency map.
+For the purpose of this tutorial, we'll use **ResNet 101** to perform prediction and generate the saliency map. Saliency map generation for custom-trained models is supported but currently in beta and not guaranteed to provide meaningful results.
 
 ### GUI
 
@@ -265,4 +268,3 @@ The `Dl4j Inference` panel is made for playing around, so get your hands dirty. 
 - Try downloading some images of household objects of the internet and pass them in to one of the pretrained models - does it struggle on some particularly complex cases?
 - Find a picture of your favourite celebrity, set up the `Dl4jCNNExplorer` for [celebrity prediction](#simple-inference-with-custom-parameters), and see if the model can correctly predict who they are. You may need to check the [VGGFACE](https://deeplearning.cms.waikato.ac.nz/user-guide/class-maps/VGGFACE) class map to ensure your chosen celebrity is in the dataset.
 - Make sure to try out different models in the Model Zoo. Some are much larger than others, but can provide more accurate predictions.
-- If you've trained a `Dl4jMlpClassifier` model in WEKA, try load it in and perform inference on images from the dataset it was trained on - how accurate is it at doing so?
