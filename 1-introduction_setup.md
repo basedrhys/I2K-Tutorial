@@ -94,6 +94,7 @@ then run the final configuration on a more powerful machine/server with the full
     ```
 
 <div style="display: flex; justify-content: space-evenly">
-    <a href="0-asset_pack.md">Previous Page</a>
-    <a href="2-training.md">Next Page</a>
+    <a href="0-asset_pack.html">Previous Page</a>
+    <a href="/">Home</a>
+    <a href="2-training.html">Next Page</a>
 </div>
