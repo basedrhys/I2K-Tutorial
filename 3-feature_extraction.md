@@ -5,7 +5,6 @@
     <a href="/I2K-Tutorial">Home</a>
     <a href="4-inference.html">Next Page</a>
 </div>
-<br>
 
 Instead of training a full neural network on your dataset, you may like to try using a pretrained model as a feature extractor and fitting a simpler model to those features. This technique (implemented with the `Dl4jMlpFilter`) uses the neuron activations from a layer within the model to convert your image dataset into a numeric form - any classical ML algorithm can then be fit to this new form.
 
@@ -47,12 +46,12 @@ The steps shown below split this into two steps; storing the featurized dataset,
 
 ### GUI
 
-- Open the MNIST meta ARFF file in the Weka Explorer `Preprocess` tab via `Open File`. 
+- Open the `mnist.meta.minimal.arff` in the Weka Explorer `Preprocess` tab via `Open File`. 
 - Select the the `Dl4jMlpFilter` in the filter panel (within `filters/unsupervised/attribute`). Click in the properties box to open the filter settings.
 
   ![Classifier](./images/3-feature_extraction/featurize-std-filter.png)
 
-- Set up the `ImageInstanceIterator` as we did in the [previous tutorial](2-training.md), setting the `directory of images` as the `mnist-minimal` directory containing the actual image files. The `width`, `height`, and `channels` are automatically set based on the zoo model's input shape 
+- Set up the `ImageInstanceIterator` as we did in the [previous tutorial](2-training.md), setting the `directory of images` as the `mnist-minimal/images` directory containing the actual image files. The `width`, `height`, and `channels` are automatically set based on the zoo model's input shape 
 ([further explanation](../user-guide/model-zoo.md#image-instance-iterator)). 
 
 - (Optional) Set the batch size according to your machine's capability; this won't change the end result but will make processing faster. If you run into memory issues then use a smaller mini-batch size.
@@ -163,4 +162,3 @@ Now that we've shown you how to perform feature extraction, it's up to you to ha
     <a href="/I2K-Tutorial">Home</a>
     <a href="4-inference.html">Next Page</a>
 </div>
-<br>

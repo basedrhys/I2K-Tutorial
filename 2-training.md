@@ -5,7 +5,6 @@
     <a href="/I2K-Tutorial">Home</a>
     <a href="3-feature_extraction.html">Next Page</a>
 </div>
-<br>
 
 This section walks through a common deep learning task - training a Neural Network. **WekaDeeplearning4j** allows you to do this in one of two ways, both of which will be explained in this section:
 - Design your own architecture, specifying a custom layer setup
@@ -79,7 +78,7 @@ This next section will walkthrough training a neural network on an image-classif
 
 Going to the `Classify` panel, if you click `Start` WEKA will throw an error (`...Dl4jMlpClassifier: Cannot handle string attributes`). This is because we're using a 'meta-style' dataset which only contains filenames. We need to configure the `Dl4jMlpClassifier` further to handle this new type of dataset and tell it what to do with these filenames.
 - In the `Dl4jMlpClassifier` settings, change the `instance iterator` from `DefaultInstanceIterator` to `ImageInstanceIterator`.
-- In the `ImageInstanceIterator` settings, set the `directory of images` to the `mnist-minimal` folder, and the `size of mini batch` to 64 (you can reduce this if you run into out-of-memory issues). 
+- In the `ImageInstanceIterator` settings, set the `directory of images` to `mnist-minimal/images/` , and the `size of mini batch` to 64 (you can reduce this if you run into out-of-memory issues). 
 
 ![Image Instance Iterator](./images/2-training/image-instance-iterator.png)
 
@@ -137,9 +136,9 @@ The dataset used in this tutorial is from the [Plant Seedlings Classification](h
 **WekaDeeplearning4j** comes with the `ImageDirectoryLoader`, a simple tool which creates an `.arff` file from a 'folder organised' dataset.
 
 #### GUI Usage
-The `ImageDirectoryLoader` can be invoked by selecting a *folder* instead of a *file* from the `Open file...` menu.
+The `ImageDirectoryLoader` can be invoked by selecting a *folder* instead of a *file* from the `Open file...` menu, from the **Preprocess** panel.
 
-- Click `Open File...` and navigate to the `train/` folder in the Plant Seedlings dataset you just downloaded.
+- Click `Open File...` and navigate to the `train/` folder in the Plant Seedlings dataset.
 
     ![Image Directory](./images/2-training/train-your-own-image-loader.png)
 
@@ -151,7 +150,7 @@ The `ImageDirectoryLoader` can be invoked by selecting a *folder* instead of a *
 
     ![Image Directory](./images/2-training/train-your-own-image-loader-complete.png)
 
-The **ImageDirectoryLoader** loads the dataset into the 'meta' format similarly to the MNIST dataset we used above.
+The **ImageDirectoryLoader** loads the dataset into the 'meta' format similar to the MNIST dataset we used above.
 
 #### Commandline Usage
 The tool can also be run from the command line
@@ -172,7 +171,7 @@ As we're simply checking accuracy within WEKA, we won't load in the `test/` data
 Now that we've loaded our custom dataset, we can get back to setting up our model.
 
 - If you haven't already, set `Dl4jMlpClassifier` as the `Classifier` and select the `ImageInstanceIterator` as `instance iterator`.
-- In the `ImageInstanceIterator` settings, set the `images location` to the `train/` directory in the Plant Seedlings dataset folder.
+- In the `ImageInstanceIterator` settings, set the `images location` to the `images/` directory in the `plant-seedlings` dataset folder.
 - As we'll be using a larger model than before, your machine may not be able to handle a `batch size` of `64`. Set it to `8` for now. We'll be using a pretrained model (which has a fixed input size) so the width, height, and number of channels don't need to be set. 
 
     ![Image Instance Iterator](./images/2-training/train-your-own-iii.png)
@@ -211,14 +210,14 @@ Using the `Resample` filter, we can randomly take out instances from our dataset
 
 As we're getting to modern CNN architectures, their size becomes large and training takes a long time. We can reduce the training time during experimentation, and then easily scale it back up once we've decided on the configuration.
 
-- Set `number of epochs` to `1`
+- In the `Dl4jMlpClassifier` settings, change `number of epochs` to `1`
 
 We're now ready for a short training run.
 
 - Keeping the same `80%` split, click `Start`
 
 ### Training - Commandline
-Ensure `weka.jar` is on the classpath. The following run finetunes a pretrained ResNet model for 20 epochs. This shows how to specify a non-default variation from the command line.
+
 ```bash
 $ java weka.Run \
     .Dl4jMlpClassifier \
@@ -244,4 +243,3 @@ We've introduced a few new features already, so now is the time to do some explo
     <a href="/I2K-Tutorial">Home</a>
     <a href="3-feature_extraction.html">Next Page</a>
 </div>
-<br>

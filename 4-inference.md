@@ -5,7 +5,6 @@
     <a href="/I2K-Tutorial">Home</a>
     <a href="/I2K-Tutorial">Next Page</a>
 </div>
-<br>
 
 WekaDeeplearning4j includes a new `Dl4j Inference` panel, which allows you to easily run inference on images using either the built-in [Model Zoo](https://deeplearning.cms.waikato.ac.nz/user-guide/model-zoo/)
 or a custom trained `Dl4jMlpClassifier` model. This panel doesn't require you to load an entire `.arff` dataset, so it's great for quick experimentation and prototyping.
@@ -29,7 +28,7 @@ This example uses the built-in `Dl4jResNet50` model (pretrained
 ### GUI
 
 After switching to the `Dl4j Inference` panel, we'll need to open an image 
-to run prediction on. We'll use `pufferfish.jpg` for this example (see above for full path),
+to run prediction on. We'll use `pufferfish.jpg` for this example,
 although you can use any image saved to your machine.
 
 ![Loaded pufferfish image](./images/4-inference/panel_pufferfish.png)
@@ -122,7 +121,7 @@ ben_stiller.jpg - Dl4jVGG (VGG16)
 
 Although a very diverse dataset (IMAGENET) was used to train many of the built-in zoo models (meaning they can perform accurate prediction in a wide range of domains), you may instead have a custom-trained `Dl4jMlpClassifier` which you'd like to experiment with; the process is largely the same as above, with a few minor changes.
 
-To save a model you've trained in WEKA, right click on the result and click `Save model`.
+To save a model you've trained in WEKA, right click on the result and click `Save model` (or use the `-d` argument from the command-line).
 
 ![Saving a Dl4jMlpClassifier](./images/4-inference/Explorer_saveModel.png)
 
@@ -136,7 +135,7 @@ On the `Dl4j Inference` panel, open the `Dl4jCNNExplorer` settings:
 
 - Set `Use custom-trained model file` to `True`
 - Open the `CustomModelSetup` settings
-    - Select the supplied `.model` file as the `Serialized model file`
+    - Select the supplied `224x224x3_aptos.model` file as the `Serialized model file`
     - Set the input `channels`, `width`, and `height` with the values used to train the model. These values will be identical to those set on the `ImageInstanceIterator` (in this case `3`, `224`, `224`, respectively).
 
         ![Dl4jCNNExplorer Settings](./images/4-inference/Dl4jCNNExplorer_customModel.png)
@@ -169,7 +168,7 @@ Configure the `ModelOutputDecoder`:
 
 Just like the previous examples, the custom model can perform inference on any image, although for meaningful results you should run it on images in the domain it was trained on - a model trained to classify between different dog breeds isn't going to give accurate answers when given a chest x-ray!
 
-- Open an image from the supplied **APTOS** dataset and click `Start` to perform prediction on it. You can check the supplied `.arff` file to verify the predictions are accurate.
+- Open an image from the supplied **APTOS** dataset and click `Start` to perform prediction on it. You can check the supplied `.arff` file to verify the model's accuracy.
 
 ### Command Line
 
@@ -196,14 +195,14 @@ For the purpose of this tutorial, we'll use **ResNet 101** to perform prediction
 ### GUI
 
 - In the `Dl4jCNNExplorer` settings, **set `Generate Saliency Map` to `true`**.
-- Set `Use serialized model file` to `False`
+- Set `Use custom-trained model file` to `False`
 - Open the `WekaScoreCAM` settings and set `Batch size` to 8 (or your number of CPU cores).
     - This allows **batches** of masked images to be passed through the model, decreasing
     saliency map generation time.
 - Choose `KerasResNet` as the `Pretrained zoo model` and set the `Model Variation` to `RESNET101`.
 - Ensure the `ModelOutputDecoder` is using `IMAGENET` as the built-in classmap.
 
-From the tutorial image folder, open `catAndDog.jpg`, then click `Start` to begin processing.
+From the tutorial image folder (`test-images`), open `catAndDog.jpg`, then click `Start` to begin processing.
 
 ![Explorer window during processing](./images/4-inference/panel_generatingMap.png)
 
@@ -275,3 +274,15 @@ The `Dl4j Inference` panel is made for playing around, so get your hands dirty. 
 - Try downloading some images of household objects of the internet and pass them in to one of the pretrained models - does it struggle on some particularly complex cases?
 - Find a picture of your favourite celebrity, set up the `Dl4jCNNExplorer` for [celebrity prediction](#simple-inference-with-custom-parameters), and see if the model can correctly predict who they are. You may need to check the [VGGFACE](https://deeplearning.cms.waikato.ac.nz/user-guide/class-maps/VGGFACE) class map to ensure your chosen celebrity is in the dataset.
 - Make sure to try out different models in the Model Zoo. Some are much larger than others, but can provide more accurate predictions.
+
+## The End
+
+Congratulations! You've completed the I2K 2020 **WekaDeeplearning4j** Tutorial! I hope you've enjoyed your time with this package and have learnt some useful skills you can apply to your own work.
+
+If you have any feedback on the tutorial/WekaDeeplearning4j, or just want to chat, feel free to get in touch with me via [Github](https://github.com/basedrhys), [LinkedIn](https://www.linkedin.com/in/rhyscompton-nz/), [Twitter](https://twitter.com/rhyscompton_nz), or Email (`rhys.compton@gmail.com`)
+
+<div style="display: flex; justify-content: space-evenly">
+    <a href="3-feature_extraction.html">Previous Page</a>
+    <a href="/I2K-Tutorial">Home</a>
+    <a href="/I2K-Tutorial">Next Page</a>
+</div>
