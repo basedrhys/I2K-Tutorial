@@ -93,3 +93,7 @@ then run the final configuration on a more powerful machine/server with the full
         -split-percentage 80
     ```
 
+<div style="display: flex; justify-content: space-evenly">
+    <a href="0-asset_pack.md">Previous Page</a>
+    <a href="2-training.md">Next Page</a>
+</div>
