@@ -1,5 +1,12 @@
 # Feature Extraction Tutorial
 
+<div style="display: flex; justify-content: space-evenly">
+    <a href="2-training.html">Previous Page</a>
+    <a href="/I2K-Tutorial">Home</a>
+    <a href="4-inference.html">Next Page</a>
+</div>
+<br>
+
 Instead of training a full neural network on your dataset, you may like to try using a pretrained model as a feature extractor and fitting a simpler model to those features. This technique (implemented with the `Dl4jMlpFilter`) uses the neuron activations from a layer within the model to convert your image dataset into a numeric form - any classical ML algorithm can then be fit to this new form.
 
 ## Extra Information
@@ -150,3 +157,10 @@ Now that we've shown you how to perform feature extraction, it's up to you to ha
   - Try different pooling modes and see what (if any) can improve over the default `MAX` pooling mode.
   
 - After altering the `Dl4jMlpFilter` options, try some other WEKA classifiers (e.g., `RandomForest`) and try beat the accuracy achieved with `SMO`!
+
+<div style="display: flex; justify-content: space-evenly">
+    <a href="2-training.html">Previous Page</a>
+    <a href="/I2K-Tutorial">Home</a>
+    <a href="4-inference.html">Next Page</a>
+</div>
+<br>

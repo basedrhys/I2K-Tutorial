@@ -1,5 +1,12 @@
 # Inference Panel Tutorial
 
+<div style="display: flex; justify-content: space-evenly">
+    <a href="3-feature_extraction.html">Previous Page</a>
+    <a href="/I2K-Tutorial">Home</a>
+    <a href="/I2K-Tutorial">Next Page</a>
+</div>
+<br>
+
 WekaDeeplearning4j includes a new `Dl4j Inference` panel, which allows you to easily run inference on images using either the built-in [Model Zoo](https://deeplearning.cms.waikato.ac.nz/user-guide/model-zoo/)
 or a custom trained `Dl4jMlpClassifier` model. This panel doesn't require you to load an entire `.arff` dataset, so it's great for quick experimentation and prototyping.
 

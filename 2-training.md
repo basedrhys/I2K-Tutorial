@@ -1,5 +1,12 @@
 # Training Tutorial
 
+<div style="display: flex; justify-content: space-evenly">
+    <a href="1-introduction_setup.html">Previous Page</a>
+    <a href="/I2K-Tutorial">Home</a>
+    <a href="3-feature_extraction.html">Next Page</a>
+</div>
+<br>
+
 This section walks through a common deep learning task - training a Neural Network. **WekaDeeplearning4j** allows you to do this in one of two ways, both of which will be explained in this section:
 - Design your own architecture, specifying a custom layer setup
 - Use a well-known pre-defined architecture from the **Model Zoo**. Most models from the **Model Zoo** have the added benefit of a pre-trained option, which tends to improve generality and reduce the training required on your end to achieve good performance.
@@ -231,3 +238,10 @@ We've introduced a few new features already, so now is the time to do some explo
 - **Custom Layer architecture** - Designing neural network architectures is an open research area which we only briefly touched on so now's the time to try creating your own model and getting a feel for CNNs. Start with a blank `Dl4jMlpClassifier` and create your own architecture; you may like to refer to the [model summaries](https://deeplearning.cms.waikato.ac.nz/user-guide/model-zoo/#model-summaries) for some inspiration.
 - **Different Zoo Models** - After trying to create your own model, try out some of the different models (and variations) available in the **Model Zoo**.
 - **Hyperparameter tuning** - Part of becoming a competent deep learning practitioner is having an intuition for training hyperparameters and the effect it has on a model's overall accuracy. Try altering some parts of the `Dl4jMlpClassifier` config, e.g. with your custom model architecture, try different numbers of epochs (10, 20, 30, 40, 50).
+
+<div style="display: flex; justify-content: space-evenly">
+    <a href="1-introduction_setup.html">Previous Page</a>
+    <a href="/I2K-Tutorial">Home</a>
+    <a href="3-feature_extraction.html">Next Page</a>
+</div>
+<br>
