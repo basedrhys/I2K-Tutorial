@@ -15,3 +15,7 @@ It is recommended to view these tutorials on the [Github Pages site](https://bas
 2. [**Training** with the `Dl4jMlpClassifier`](./2-training.md)
 3. [CNN **Feature Extraction** with the `Dl4jMlpFilter`](./3-feature_extraction.md)
 4. [**Model Inference** with the `Dl4jCNNExplorer`](./4-inference.md)
+
+## Contact Me
+
+If you have any feedback on the tutorial/WekaDeeplearning4j, or just want to chat, feel free to get in touch with me via [Github](https://github.com/basedrhys), [LinkedIn](https://www.linkedin.com/in/rhyscompton-nz/), [Twitter](https://twitter.com/rhyscompton_nz), or Email (`rhys.compton@gmail.com`)

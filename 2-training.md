@@ -14,7 +14,10 @@ This section walks through a common deep learning task - training a Neural Netwo
 
 A very common dataset to test algorithms with is the _Iris Dataset_, a simple 4-attribute classification dataset. Although this is often used to demonstrate classical ML algorithms (e.g., boosting, decision trees), neural networks can also be applied to this style of dataset.
 
+### Dataset Sample
 ![Iris Visualization](./images/datasets/iris/irisData.png)
+
+### Dataset Distribution Visualisation
 ![Iris Visualization](./images/datasets/iris/irisVis.png)
 
 We're going to start with a simple network, progressively adding layers and noting the effect this has on performance & model size.
@@ -27,9 +30,11 @@ We're going to start with a simple network, progressively adding layers and noti
 
 We're now going to start adding some layers:
 
+- Next to `Choose`, click the `Dl4jMlpClassifier` box to open the classifier options
 - Click `layer specification` to open the `GenericArrayEditor`. From here we can edit the model's layers. 
 - Click `Choose` and select the `DenseLayer`.
 - Open the `DenseLayer` settings and set `number of outputs` to `32`.
+- Click `Add` to add the layer. You should see it appear above the `OutputLayer`
 - Click `OK` to save the configuration and click `Start` again to see how the accuracy improves. 
 
 You'll note we've gone from 12 parameters, to 259 after only adding a single layer - neural networks can balloon in size very quickly as we add more layers!
@@ -175,7 +180,6 @@ Now that we've loaded our custom dataset, we can get back to setting up our mode
 - As we'll be using a larger model than before, your machine may not be able to handle a `batch size` of `64`. Set it to `8` for now. We'll be using a pretrained model (which has a fixed input size) so the width, height, and number of channels don't need to be set. 
 
     ![Image Instance Iterator](./images/2-training/train-your-own-iii.png)
-
 
 For the sake of this example, we'll use the tried-and-tested **ResNet** architecture.
 
