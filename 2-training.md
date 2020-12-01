@@ -138,11 +138,11 @@ The dataset used in this tutorial is from the [Plant Seedlings Classification](h
 #### GUI Usage
 The `ImageDirectoryLoader` can be invoked by selecting a *folder* instead of a *file* from the `Open file...` menu, from the **Preprocess** panel.
 
-- Click `Open File...` and navigate to the `train/` folder in the Plant Seedlings dataset.
+- Click `Open File...` and navigate to the `images/` folder in the Plant Seedlings dataset.
 
     ![Image Directory](./images/2-training/train-your-own-image-loader.png)
 
-- Click `Ok` and choose the `ImageDirectoryLoader` in the following popup.
+- Click `Ok`, then on the next dialog click `Choose` and choose the `ImageDirectoryLoader`.
 
     ![Image Directory](./images/2-training/train-your-own-image-loader-2.png)
 
