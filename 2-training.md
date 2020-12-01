@@ -37,13 +37,13 @@ We're now going to start adding some layers:
 - Click `Add` to add the layer. You should see it appear above the `OutputLayer`
 - Click `OK` to save the configuration and click `Start` again to see how the accuracy improves. 
 
-You'll note we've gone from 12 parameters, to 259 after only adding a single layer - neural networks can balloon in size very quickly as we add more layers!
+You'll note we've gone from 15 parameters, to 259 after only adding a single layer - neural networks can balloon in size very quickly as we add more layers!
 
 - Finally add one more `DenseLayer` with `8` outputs.
 
 ![Layer config](./images/2-training/layer-setup.png)
 
-Train the model again and you should see a minor improvement in accuracy again, but not as much as before.
+Train the model again and you should see a minor improvement in accuracy again, but not as much as before. If you don't see an improvement don't worry - the point at this part of the tutorial isn't to get accurate classification, but rather as a mild introduction to creating neural networks.
 
 You may notice it training the model many times; by default WEKA performs 10-fold cross-validation on your data. This trains 10 different classifiers on subsets of the data, then averages their performance for the final summary result. This is fine for smaller datasets & models but as we continue this tutorial and train larger models it may take too long. For the sake of this tutorial, a faster method is to do a training/test split on the loaded dataset.
 
@@ -218,6 +218,8 @@ As we're getting to modern CNN architectures, their size becomes large and train
 We're now ready for a short training run.
 
 - Keeping the same `80%` split, click `Start`
+
+Even with the smaller dataset, training on CPU with such a sizable model (`KerasResNet`) can take a while (~20-30 minutes). Once you've got the model to begin training successfully, feel free to move on to the other sections of the tutorial if you find yourself waiting here for a long time.
 
 ### Training - Commandline
 
