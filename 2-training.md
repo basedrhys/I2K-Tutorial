@@ -178,7 +178,6 @@ Now that we've loaded our custom dataset, we can get back to setting up our mode
 
 
 For the sake of this example, we'll use the tried-and-tested **ResNet** architecture.
-<!-- For the sake of this example, we'll use the newly-announced **EfficientNet** architecture, which out-performed previous SOTA classification models at a range of model sizes ([blog post](https://ai.googleblog.com/2019/05/efficientnet-improving-accuracy-and.html)):  -->
 
 - Select `KerasResNet` from the `zooModel` option.
 

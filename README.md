@@ -5,6 +5,8 @@ Welcome to the **WekaDeeplearning4j** tutorial for I2K (Images to Knowledge) 202
 ## Asset Pack
 Before you get started, check out the [asset pack download page](./0-asset_pack.md) for instructions on downloading the tutorial asset pack. This contains datasets and models you'll need for this tutorial.
 
+[Google Slides Link](https://docs.google.com/presentation/d/1IXKmsZV1366NVCAV-ev6ZESO_BYPD0dM_T6yoc_J2hU/edit?usp=sharing)
+
 ## Table of Contents
 
 It is recommended to view these tutorials on the [Github Pages site](https://basedrhys.github.io/I2K-Tutorial/).
