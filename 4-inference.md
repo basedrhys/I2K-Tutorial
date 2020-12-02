@@ -18,6 +18,8 @@ Where the examples below use an image, this can be found in the `test-images/` a
 
     $WEKA_HOME/packages/wekaDeeplearning4j/src/test/resources/images/ 
 
+All datasets/models referenced in this tutorial can be found in the [asset pack](0-asset_pack.md)
+
 ## Starting Simple - Inference with Default Parameters
 
 The package has set reasonable default values for simple inference on images of everyday objects (animals, food, vehicles, etc.). 
@@ -30,6 +32,8 @@ This example uses the built-in `Dl4jResNet50` model (pretrained
 After switching to the `Dl4j Inference` panel, we'll need to open an image 
 to run prediction on. We'll use `pufferfish.jpg` for this example,
 although you can use any image saved to your machine.
+
+- Click `Open Image...` and select the image file on your computer
 
 ![Loaded pufferfish image](./images/4-inference/panel_pufferfish.png)
 

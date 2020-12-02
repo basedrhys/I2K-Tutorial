@@ -10,6 +10,7 @@ This section walks through a common deep learning task - training a Neural Netwo
 - Design your own architecture, specifying a custom layer setup
 - Use a well-known pre-defined architecture from the **Model Zoo**. Most models from the **Model Zoo** have the added benefit of a pre-trained option, which tends to improve generality and reduce the training required on your end to achieve good performance.
 
+All datasets/models referenced in this tutorial can be found in the [asset pack](0-asset_pack.md)
 ## Starting Simple - The Iris Dataset (Tabular)
 
 A very common dataset to test algorithms with is the _Iris Dataset_, a simple 4-attribute classification dataset. Although this is often used to demonstrate classical ML algorithms (e.g., boosting, decision trees), neural networks can also be applied to this style of dataset.
@@ -24,8 +25,8 @@ We're going to start with a simple network, progressively adding layers and noti
 
 ### GUI
 
-- Click `Open file...` and open the `iris.arff` dataset.
-- Switch to the `Classify` panel and select `functions` > `Dl4jMlpClassifier` as the classifier.
+- Open the **Weka Explorer**, click `Open file...` and open the `iris.arff` dataset.
+- Switch to the `Classify` panel, click `Choose`, and select `functions` > `Dl4jMlpClassifier` as the classifier.
 - Click `Start` to begin training. You should see the **Progress Manager** show a progress bar indicating the progress and ETA. By default the classifier only has one layer (the output layer) but this does have trainable weights so can be fit to the dataset. Note the cross-validated accuracy. 
 
 We're now going to start adding some layers:
@@ -189,7 +190,7 @@ For the sake of this example, we'll use the tried-and-tested **ResNet** architec
 
 Note that by default, the layer specification is **not** loaded in the GUI for usability reasons;
 loading the layers every time an option is changed can slow down the GUI significantly. If, however, you'd like
-to view the layers of the zoo model you've selected, set the `Load layer specification in GUI` flag to true.
+to view the layers of the zoo model you've selected, set the `Preview zoo model layer specification in GUI` flag to true.
 
 #### Rapid Prototyping
 
@@ -241,7 +242,7 @@ We've introduced a few new features already, so now is the time to do some explo
 - **Custom Dataset** - if you've got your own dataset, try loading that into WEKA for your exploration. If not, feel free to use one of the other datasets provided in the asset pack.
 - **Custom Layer architecture** - Designing neural network architectures is an open research area which we only briefly touched on so now's the time to try creating your own model and getting a feel for CNNs. Start with a blank `Dl4jMlpClassifier` and create your own architecture; you may like to refer to the [model summaries](https://deeplearning.cms.waikato.ac.nz/user-guide/model-zoo/#model-summaries) for some inspiration.
 - **Different Zoo Models** - After trying to create your own model, try out some of the different models (and variations) available in the **Model Zoo**.
-- **Hyperparameter tuning** - Part of becoming a competent deep learning practitioner is having an intuition for training hyperparameters and the effect it has on a model's overall accuracy. Try altering some parts of the `Dl4jMlpClassifier` config, e.g. with your custom model architecture, try different numbers of epochs (10, 20, 30, 40, 50).
+- **Hyperparameter tuning** - Part of becoming a competent deep learning practitioner is having an intuition for training hyperparameters and the effect it has on a model's overall accuracy. Try altering some parts of the `Dl4jMlpClassifier` config, e.g. with your custom model architecture, try different numbers of epochs (10, 20, 30, 40, 50). You can also try the `GridSearch` and `MultiSearch` packages in WEKA to automatically search for the optimal hyperparameters.
 
 <div style="display: flex; justify-content: space-evenly">
     <a href="1-introduction_setup.html">Previous Page</a>

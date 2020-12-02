@@ -60,7 +60,7 @@ Installed	Repository	Loaded	Package
 
 ## Add GPU Support
 
-The GPU additions needs CUDA Toolkit (10.0, 10.1, or 10.2) and corresponding appropriate cuDNN library to be installed on your machine. Nvidia provides some good installation instructions:
+The GPU additions needs CUDA Toolkit (10.0, 10.1, or 10.2) and corresponding appropriate cuDNN library to be installed on your machine. Unfortunately, CUDA is the only way to use GPU acceleration with **WekaDeeplearning4j** and most Mac computers use AMD graphics cards; because of this, only Linux and Windows machines can use GPU acceleration. For valid operating systems, Nvidia provides some good installation instructions:
 
 ### CUDA Toolkit
 - [Linux](http://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html)
@@ -90,7 +90,7 @@ then run the final configuration with the full dataset on a more powerful headle
     
     ![Copy configuration to clipboard example](./images/1-introduction_setup/CopyConfiguration.png)
 
-2. Paste this into the command line (e.g., on your association's machine learning servers), specifying any other necessary flags not included in the pasted configuration. For example training a `Dl4jMlpClassifier` can be done like:
+2. Paste this into the command line (e.g., on your association's machine learning servers), specifying any other flags necessary for `weka.Run` that aren't included in the pasted configuration. For example training a `Dl4jMlpClassifier` can be done like:
 
     ```bash
     $ java weka.Run <Dl4jMlpClassifier configuration from clipboard> \

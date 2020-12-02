@@ -38,6 +38,8 @@ which simply flattens the extra dimensions (aforementioned example would become 
 
 `PoolingType` does not need to be specified when using the default activation layer - the outputs are already the correct dimensionality (`[batch size, num activations]`). If using an intermediary layer the outputs will typically be of size `[batch size, width, height, num channels]`.
 
+All datasets/models referenced in this tutorial can be found in the [asset pack](0-asset_pack.md)
+
 ## Starting Simple - Feature Extraction with the MNIST dataset
 The following example walks through using a pretrained ResNet50 as a feature extractor on the MNIST dataset and fitting a model using a standard WEKA classifier to this transformed dataset.
 This only takes 1-2 minutes on a modern CPU &mdash; much faster than training a large neural network from scratch.
@@ -66,7 +68,7 @@ For now lets leave the `Zoo model` and `feature extraction layer` as their defau
 
   ![Processed Dataset](./images/3-feature_extraction/featurize-std-processed.png)
 
-- Switch to the `Classify` tab and select `SMO` as the classifier.
+- Switch to the `Classify` tab and select `functions` > `SMO` as the classifier.
 - Click `Start` to start training on your newly transformed dataset. 
 
 You should get ~89% accuracy - certainly not SOTA but given the simplicity and speed of the method it's not bad! It should be noted that the training dataset size is very small (~400 instances) and also that the `ResNet50` weights are trained on ImageNet, which is a very different domain to MNIST
@@ -124,7 +126,7 @@ We're good to go! Apply the filter to begin processing the dataset; after comple
 
 As before, we can fit any off-the-shelf WEKA classifier to this numerical dataset - no further processing required.
 
-- Switch to the `Classify` tab and run `SMO` on our newly transformed datset - adding this extra layer should increase the accuracy very slightly! 
+- Switch to the `Classify` tab and run `SMO` on our newly transformed datset - adding this extra layer may increase the accuracy very slightly! 
 
 ### Commandline
 ```bash
