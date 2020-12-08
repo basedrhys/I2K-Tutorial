@@ -186,7 +186,7 @@ $ java weka.Run .Dl4jCNNExplorer \
     -useCustomModel
 ```
 
-## Example 4: Inference on many images (Batch prediction)
+## Inference on many images (Batch prediction)
 
 The examples above show how to perform inference on a single image at a time, but you may wish to do inference on hundreds of images at once. This can either be done with some scripting and command-line invocation of the `Dl4jCNNExplorer`, but another way is to use Weka's `Re-evaluate model on current test set` feature. This will be faster as it only needs to load the model once, while invoking the `Dl4jCNNExplorer` will load the model for each image.
 
@@ -241,7 +241,7 @@ Your model will begin inference on all images specified in the `.arff` you loade
 
 You can ignore the `actual` column, as this is simply whichever class you named the nested folder. The `predicted` column denotes the models predictions in the format (`<class ID>:<class name>`). You can use this output for further sorting & processing.
 
-## Example 4: Saliency Map Generation
+## Saliency Map Generation
 
 After running prediction on your image, you may be left wondering what *specifically* the model was looking at to make its prediction - a saliency map can help explain this.
 
