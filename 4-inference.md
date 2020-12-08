@@ -186,6 +186,61 @@ $ java weka.Run .Dl4jCNNExplorer \
     -useCustomModel
 ```
 
+## Example 4: Inference on many images (Batch prediction)
+
+The examples above show how to perform inference on a single image at a time, but you may wish to do inference on hundreds of images at once. This can either be done with some scripting and command-line invocation of the `Dl4jCNNExplorer`, but another way is to use Weka's `Re-evaluate model on current test set` feature. This will be faster as it only needs to load the model once, while invoking the `Dl4jCNNExplorer` will load the model for each image.
+
+### GUI
+
+Weka's evaluation function looks in the current working directory for the images. This has two implications:
+
+1. The folder containing our test images to run inference on must be given the same name as that containing the training images (e.g., `train_images`).
+2. We must open Weka from a specific folder - the one containing our `train_images` folder
+
+To load the images in for the model we'll need to create an `.arff` file which points to each image. This is easy to do manually but for this tutorial we'll show how to use the `ImageDirectoryLoader` class to do so.
+
+- Copy your images into a single folder nested inside another folder. The naming of the top-level folder must match the folder name used when training the model and the nested folder name must match one of the target classes, but it does not matter which, i.e.,:
+    ```
+    train_images
+    |-- cat
+        |-- image1.png
+        |-- image2.png
+        ...
+        |-- image259.png
+    ```
+We first need to open the Weka GUI from the folder containing `train_images` (e.g., if the structure was `Documents/train_images/cat/image1.png`, the 'parent folder' will be `Documents`). These commands require `weka.jar` to be on the classpath ([setup instructions](1-introduction_setup.md#environment-variables)).
+- Open a terminal and change into the 'parent folder' directory.
+- Open the Weka GUI by running: `java weka.gui.GUIChooser`.
+- Open the Weka Explorer.
+
+We can now continue from within the Weka GUI.
+- Open the top-level folder (`train_images`) with the `ImageDirectoryLoader` ([further instructions](./2-training.md#fine-tuning-a-model-on-a-custom-dataset)).
+
+You should now see your images loaded into the Weka Explorer:
+
+![Explorer with loaded test images](./images/4-inference/panel_loadTestImages.png)
+- Up the top right, click `Save` to save this `.arff` for use in later steps.
+
+We will now set up the evaluation in the **Classify** panel, so switch to that.
+
+- Right click in the `Result list` panel, and click `Load model`. Select your previously saved `.model` file.
+- In `Test options`, select `Supplied test set` and load the `.arff` file you created a few steps earlier.
+
+We'll now configure the evaluation output.
+- Click `More options`
+- Change `Output predictions` from `Null` to `PlainText` (or whichever format you prefer). 
+- In the `PlainText` options, enter `first-last` to output all attributes for each instance (this includes the filename, which you may want for further processing.
+
+![More options panel](./images/4-inference/panel_moreOptions.png)
+
+- Click Ok, right click your loaded model in the `Result list` panel, and click `Re-evaluate model on current test set`.
+
+Your model will begin inference on all images specified in the `.arff` you loaded as the test set. The results will be shown in the `Classifier output` panel:
+
+![Evaluation Output](./images/4-inference/panel_evaluationOutput.png)
+
+You can ignore the `actual` column, as this is simply whichever class you named the nested folder. The `predicted` column denotes the models predictions in the format (`<class ID>:<class name>`). You can use this output for further sorting & processing.
+
 ## Example 4: Saliency Map Generation
 
 After running prediction on your image, you may be left wondering what *specifically* the model was looking at to make its prediction - a saliency map can help explain this.
