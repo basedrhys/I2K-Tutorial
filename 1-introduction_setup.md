@@ -60,10 +60,11 @@ Installed	Repository	Loaded	Package
 
 ## Add GPU Support
 
-The GPU additions needs CUDA Toolkit (10.0, 10.1, or 10.2) and corresponding appropriate cuDNN library to be installed on your machine. Unfortunately, CUDA is the only way to use GPU acceleration with **WekaDeeplearning4j** and most Mac computers use AMD graphics cards; because of this, only Linux and Windows machines can use GPU acceleration. For valid operating systems, Nvidia provides some good installation instructions:
+The GPU additions needs CUDA Toolkit (10.0, 10.1, or 10.2) and corresponding appropriate cuDNN library to be installed on your machine. Unfortunately, CUDA is the only way to use GPU acceleration with **WekaDeeplearning4j** and most Mac computers use AMD graphics cards; because of this, only Linux and Windows machines can use GPU acceleration. If you're using a Mac with an external Nvidia GPU then you may be able to add GPU support for **WekaDeeplearning4j**, but this is experimental. For valid operating systems, Nvidia provides some good installation instructions:
 
 ### CUDA Toolkit
 - [Linux](http://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html)
+- [Mac OSX](https://docs.nvidia.com/cuda/cuda-installation-guide-mac-os-x/index.html)
 - [Windows](http://docs.nvidia.com/cuda/cuda-installation-guide-microsoft-windows/index.html)
 
 ### CUDNN
